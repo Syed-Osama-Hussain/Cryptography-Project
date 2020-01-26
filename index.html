@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Cipher</title>
+  <link href="index.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+  <div id="container">
+
+    <div style="margin-top:20px; margin-left:35px;">
+      <label>Select Cipher Type:</label>
+      <select id="select">
+        <option value="0">Shift</option>
+        <option value="1">Viginere</option>
+      </select>
+    </div>
+
+    <div style="margin-top:35px; margin-left:35px;">
+      <label for="CT">CT:</label>
+      <input id="CT" type="text">
+    </div>
+
+    <div style="margin-top:35px; margin-left:35px;">
+      <label for="key">Key:</label>
+      <input id="key" type="text">
+    </div>
+
+    <div style="margin-top:35px; margin-left:35px;">
+      <label for="PT">PT:</label>
+      <input id="PT" type="text">
+    </div>
+
+    <button id="btn" style="margin-top:35px; margin-left:85px; margin-bottom:25px;">Encrypt/Decrypt</button>
+  </div>
+
+  <script src="cipher.js"></script>
+</body>
+
+</html>
