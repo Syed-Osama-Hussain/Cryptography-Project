@@ -7,11 +7,12 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Cipher</title>
   <link href="index.css" rel="stylesheet" type="text/css">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 </head>
 
-<body>
+<body style="background-color: aqua;">
 
-  <div id="container">
+  <div id="container" class="form-group " >
 
     <div style="margin-top:20px; margin-left:35px;">
       <label>Select Cipher Type:</label>
@@ -25,7 +26,7 @@
 
     <div style="margin-top:35px; margin-left:35px;">
       <label for="CT">CT:</label>
-      <input class="ml" id="CT" type="text">
+      <input  class="ml" id="CT" type="text">
     </div>
 
     <div style="margin-top:35px; margin-left:35px;">
@@ -38,9 +39,9 @@
       <input class="ml" id="PT" type="text">
     </div>
 
-    <button class="btn" style="margin-top:35px; margin-left:75px; margin-bottom:25px;">Encrypt</button>
+    <button class="btn btn-primary" style="margin-top:35px; margin-left:75px; margin-bottom:25px;">Encrypt</button>
 
-    <button class="btn" style="margin-top:35px; margin-left:15px; margin-bottom:25px;">Decrypt</button>
+    <button class="btn btn-secondary" style="margin-top:35px; margin-left:15px; margin-bottom:25px;">Decrypt</button>
   </div>
 
   <script src="cipher.js"></script>
