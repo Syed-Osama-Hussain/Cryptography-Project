@@ -6,16 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Cipher</title>
+  <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
   <link href="index.css" rel="stylesheet" type="text/css">
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
 </head>
 
-<body style="background-color: aqua;">
+<body style="background-color:#2c3e50;">
 
-  <div id="container" class="form-group " >
+  <form>
 
-    <div style="margin-top:20px; margin-left:35px;">
-      <label>Select Cipher Type:</label>
+    <div style="margin-top:20px;" class="box">
       <select id="select">
         <option value="0">Shift</option>
         <option value="1">Viginere</option>
@@ -24,25 +24,22 @@
       </select>
     </div>
 
-    <div style="margin-top:35px; margin-left:35px;">
-      <label for="CT">PT:</label>
-      <input  class="ml" id="CT" type="text">
+    <div style="margin-top:70px;">
+      <input placeholder="Plain Text" id="CT" type="text">
     </div>
 
-    <div style="margin-top:35px; margin-left:35px;">
-      <label for="key">Key:</label>
-      <input id="key" type="text">
+    <div >
+      <input placeholder="Enter Key" id="key" type="text">
     </div>
 
-    <div style="margin-top:35px; margin-left:35px;">
-      <label for="PT">CT:</label>
-      <input class="ml" id="PT" type="text">
+    <div>
+      <input placeholder="Cipher Text" id="PT" type="text">
     </div>
 
-    <button class="btn btn-primary" style="margin-top:35px; margin-left:75px; margin-bottom:25px;">Encrypt</button>
+    <input  class="btn button" value="Encrypt" />
 
-    <button class="btn btn-secondary" style="margin-top:35px; margin-left:15px; margin-bottom:25px;">Decrypt</button>
-  </div>
+    <input style="margin-left:5px;" class="btn button" value="Decrypt" />
+  </form>
 
   <script src="cipher.js"></script>
 </body>

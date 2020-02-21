@@ -2,8 +2,15 @@ const select = document.querySelector("#select"),
   CT = document.querySelector("#CT"),
   PT = document.querySelector("#PT"),
   key = document.querySelector("#key"),
-  btn = document.querySelectorAll(".btn");
-let alpha = {}, randKey = {};
+  btn = document.querySelectorAll(".btn"),
+  form = document.querySelector("form");
+
+  form.onsubmit = (e) => {
+    
+    e.preventDefault();
+  }
+
+  let alpha = {}, randKey = {};
 
 window.onload = () => {
   CT.value = "";
@@ -37,19 +44,19 @@ for (let i = 0; i < btn.length; i++) {
   btn[i].addEventListener("click", (e) => {
     switch (parseInt(select.value)) {
       case 0:
-        shift(e.currentTarget.innerHTML);
+        shift(e.currentTarget.value);
         break;
 
       case 1:
-        viginere(e.currentTarget.innerHTML);
+        viginere(e.currentTarget.value);
         break;
 
       case 2:
-        substitution(e.currentTarget.innerHTML,randKey);
+        substitution(e.currentTarget.value,randKey);
         break;
       
       case 3:
-        playFair(e.currentTarget.innerHTML)
+        playFair(e.currentTarget.value)
         break;
     }
 
