@@ -58,14 +58,22 @@ for (let i = 0; i < btn.length; i++) {
       case 3:
         playFair(e.currentTarget.value)
         break;
-    }
+      
+      case 4:
+        railFence(e.currentTarget.value)
+        break;
+
+      case 5:
+        Transposition(e.currentTarget.value)
+        break;
+      }
 
   }, false);
 }
 
 
 function checkKey(val) {
-  if (val.charCodeAt(0) >= 65 && val.charCodeAt(0) <= 90)
+  if ((val.charCodeAt(0) >= 65 && val.charCodeAt(0) <= 90) || val == " ")
     return true;
 
   return false;
@@ -93,6 +101,11 @@ function shift(btnType) {
 
     if (btnType === "Encrypt") {
 
+      if(ctval[i] === " ")
+      {
+        ptval += ctval[i];
+        continue;
+      }  
       uppercase = ctval[i].toUpperCase();
 
       if (checkKey(uppercase)) {
@@ -116,6 +129,12 @@ function shift(btnType) {
         return;
       }
     } else {
+
+      if(ptval[i] === " ")
+      {
+        ctval += ptval[i];
+        continue;
+      }
       uppercase = ptval[i].toUpperCase();
 
       if (checkKey(uppercase)) {
@@ -193,6 +212,12 @@ function viginere(btnType) {
 
     if (btnType === "Encrypt") {
 
+      if(ctval[i] === " ")
+      {
+        ptval += ctval[i];
+        continue;
+      }  
+
       uppercase = ctval[i].toUpperCase();
 
       if (checkKey(uppercase)) {
@@ -211,6 +236,13 @@ function viginere(btnType) {
         return;
       }
     } else {
+
+      if(ptval[i] === " ")
+      {
+        ctval += ptval[i];
+        continue;
+      }  
+
       uppercase = ptval[i].toUpperCase();
 
       if (checkKey(uppercase)) {
@@ -257,9 +289,22 @@ function substitution(btnType,randKey){
 
   for(let i=0;i<length;i++){
     if(btnType == "Encrypt"){
+
+      if(ctval[i] === " ")
+      {
+        ptval += ctval[i];
+        continue;
+      }  
+
       ptval += Object.keys(randKey).find(k => randKey[k] === ctval[i]);
     
     }else{
+      if(ptval[i] === " ")
+      {
+        ctval += ptval[i];
+        continue;
+      }  
+     
       ctval += randKey[ptval[i]];
     }
   }
@@ -312,17 +357,27 @@ function playFair(btnType){
       return;
     }
   }
-  //console.log(keyMatrix)
+  console.log(keyMatrix)
   
   if(!keyMatrix){
     alert(`Invalid key ${key.value}`);
     return;
   }
 
+
   for(let i=0;i<length;i+=2){
     //console.log(ptval)
     if(btnType == "Encrypt"){
+
+      if(ctval[i] === " ")
+      {
+        ptval += ctval[i];
+        i++;
+        //continue;
+      }
       let index1 = {x: keyMatrix[ctval[i]][0],y:keyMatrix[ctval[i]][1]};
+      console.log(keyMatrix[ctval[i+1]],ctval[i+1]);
+
       let index2 = {x: keyMatrix[ctval[i+1]][0],y:keyMatrix[ctval[i+1]][1]};
 
       //console.log(index1,index2);
@@ -354,7 +409,15 @@ function playFair(btnType){
       
     }
   }else{
+
+    if(ptval[i] === " ")
+    {
+      ctval += ptval[i];
+      i++;
+      //continue;
+    }
     let index1 = {x: keyMatrix[ptval[i]][0],y:keyMatrix[ptval[i]][1]};
+    console.log(keyMatrix[ptval[i+1]],ptval[i+1]);
     let index2 = {x: keyMatrix[ptval[i+1]][0],y:keyMatrix[ptval[i+1]][1]};
 
     //console.log(index1,index2);
@@ -454,10 +517,16 @@ function constructMatrix(keyStr){
 }
 
 function checkCT(str){
+  let spaces = 0;
   for(let i=0;i<str.length;i++){
     if(!checkKey(str[i]))
       return false;
-    
+
+    if(str[i] === " "){
+      spaces++;
+      continue;
+    }
+
     if(str[i] === str[i-1]){
       
       if(str[i] === str[i-1] && str[i] === "X"){
@@ -469,7 +538,7 @@ function checkCT(str){
     }
   }
 
-  if(str.length % 2 !== 0){
+  if((str.length - spaces) % 2 !== 0){
     if(str[str.length-1] != "X"){
       str += "X";
     }else{
@@ -506,5 +575,180 @@ function pfSameDimension(index1,index2,dim){
     return {t1:targetIndex1,t2:targetIndex2};
     }
 
-//MYATXTITUDEISFAIRX
-//TFFNZQMOXAHLYABG 
+    function railFence(btnType){
+      let ptval = "",ctval = "", keyval = parseInt(key.value),length;
+
+      if(!keyval || keyval <= 0){
+        alert(`Invalid Key ${keyval}`)
+      }
+
+      if(btnType === "Encrypt"){
+        ptval = CT.value;
+        length = ptval.length;
+        let row = 1,coded = [];
+        let flag = true;
+        for(let i=0;i<length;i++){
+          
+          if(row >= keyval || (row <= 1 && i!==0)){
+            flag = !flag;
+          }
+          
+          coded.push({code:row,value:ptval[i]});
+          if(flag)
+          {
+            row++;
+          }else{
+            row--;
+          }
+        }
+
+        for(let i=1;i<=keyval;i++){
+          let temp = "";
+           coded.filter(val => 
+             i === val.code 
+              
+          ).forEach(val => {
+            temp += val.value
+          });
+
+          ctval += temp;
+        }
+        PT.value = ctval;
+
+      }else{
+        ctval = PT.value;
+        length = ctval.length;
+        let flag = false,row = 0,rail={};
+        
+        for(let i=0;i<length;i++){
+          if(row == 0){
+            flag = true;
+          }
+
+          if(row == keyval-1){
+            flag = false;
+          }
+          rail[`${row}${i}`] = "*";
+
+          if(flag){
+            row++;
+          }else{
+            row--;
+          }
+        }
+
+        let index = 0;
+        for(let row =0;row<keyval;row++){
+          for(let i=0;i<length;i++){
+            
+            if(rail[`${row}${i}`] == "*" && index < length)
+            {
+              rail[`${row}${i}`] = ctval[index];
+              index++;
+            }
+          }
+
+        }
+
+        flag = false
+        row = 0
+        let result="";
+        
+        for(let i=0;i<length;i++){
+          if(row == 0){
+            flag = true;
+          }
+
+          if(row == keyval-1){
+            flag = false;
+          }
+
+          if(rail[`${row}${i}`] !== "*")
+            result += rail[`${row}${i}`];
+
+          if(flag){
+            row++;
+          }else{
+            row--;
+          }
+        }
+        PT.value = result;
+      }
+
+    }
+
+    
+function Transposition(btnType){
+  let ctval = "",ptval = "", Sortedkeyval = createKeyTP(key.value.toUpperCase()),keyval = key.value.toUpperCase();
+  
+  if(!Sortedkeyval){
+    alert(`Invalid Key ${key.value}`);
+    return;
+  }
+
+  if(btnType == "Encrypt"){
+    ptval = CT.value;   
+    code = {};
+    let row = Math.ceil(ptval.length / keyval.length ),col = 1,index = 0;
+    let length = ptval.length,i;
+
+    for(i=1;i<=row && col <= keyval.length;col++,index++){
+  
+      if(index >= length) break;
+
+      code[`${i}${col}`] = ptval[index];
+
+      if(col >= keyval.length && i <= row ){
+        col = 0;
+        i++;
+      }
+
+    }
+
+    while(col <= keyval.length){
+      code[`${i}${col}`] = "-";
+      col ++;
+    }
+
+
+    for(let i=0;i<keyval.length;i++){
+      
+      let temp = "";
+      Object.keys(code).filter(val => 
+        keyval.indexOf(Sortedkeyval[i]) + 1 === parseInt(val[1]) 
+         
+     ).forEach(val => {
+       temp += code[val]
+     });
+
+     ctval += temp; 
+
+    }    
+    PT.value = ctval;
+  }else{
+    ctval = PT.value;
+    let split = ctval.length / keyval.length;
+    let rows = ctval.match(new RegExp('.{1,' + split + '}', 'g')),col;
+    code = {};
+    for(let i=0;i<keyval.length;i++){
+      
+      col = keyval.indexOf(Sortedkeyval[i]);
+      
+      for(let j=1;j<=rows[i].length;j++){
+        code[`${j}${col}`] = rows[i][j-1];
+      }
+
+    }
+
+    Object.values(code).forEach(val => {
+      ptval += val;
+    });
+    CT.value = ptval;
+  }
+} 
+
+
+function createKeyTP(keyval){
+  keyval = keyval.split('').sort().join('');
+  return keyval;
+}
