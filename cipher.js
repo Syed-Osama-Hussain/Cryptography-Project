@@ -17,6 +17,7 @@ window.onload = () => {
   PT.value = "";
   if(parseInt(select.value) == 2){
     key.disabled = true;
+    randKey = constructRandKey();
   }else{
   key.value = "";
   }
@@ -69,6 +70,20 @@ for (let i = 0; i < btn.length; i++) {
       }
 
   }, false);
+}
+
+function caseCheck(source,target){
+  let result = "";
+  for(let i=0;i<target.length;i++){
+    
+    if(target[i].toLowerCase() === target[i]){
+      result += source[i].toLowerCase(); 
+    }else{
+      result += source[i];
+    }  
+  }
+
+  return result;
 }
 
 
@@ -164,9 +179,9 @@ function shift(btnType) {
   }
 
   if (btnType === "Encrypt") {
-    PT.value = ptval;
+    PT.value = caseCheck(ptval,ctval);
   } else {
-    CT.value = ctval;
+    CT.value = caseCheck(ctval,ptval);
   }
 
 
@@ -265,9 +280,9 @@ function viginere(btnType) {
   }
 
   if (btnType === "Encrypt") {
-    PT.value = ptval;
+    PT.value = caseCheck(ptval,ctval);
   } else {
-    CT.value = ctval;
+    CT.value = caseCheck(ctval,ptval);
   }
 
 }
@@ -310,9 +325,9 @@ function substitution(btnType,randKey){
   }
 
   if (btnType === "Encrypt") {
-    PT.value = ptval;
+    PT.value = caseCheck(ptval,CT.value);
   } else {
-    CT.value = ctval;
+    CT.value = caseCheck(ctval,PT.value);
   }
 }
 
@@ -452,9 +467,9 @@ function playFair(btnType){
   }
   
   if (btnType === "Encrypt") {
-    PT.value = ptval;
+    PT.value = caseCheck(ptval,CT.value);
   } else {
-    CT.value = ctval;
+    CT.value = caseCheck(ctval,PT.value);
   }
 }
 
