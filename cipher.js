@@ -230,9 +230,9 @@ function viginere(btnType) {
       if(ctval[i] === " ")
       {
         ptval += ctval[i];
+        keyval = keyval.slice(0, i) + " " + keyval.slice(i);
         continue;
       }  
-
       uppercase = ctval[i].toUpperCase();
 
       if (checkKey(uppercase)) {
@@ -255,6 +255,7 @@ function viginere(btnType) {
       if(ptval[i] === " ")
       {
         ctval += ptval[i];
+        keyval = keyval.slice(0, i) + " " + keyval.slice(i);
         continue;
       }  
 
@@ -599,6 +600,7 @@ function pfSameDimension(index1,index2,dim){
 
       if(btnType === "Encrypt"){
         ptval = CT.value;
+        ptval = ptval.replace(/ /g,"");
         length = ptval.length;
         let row = 1,coded = [];
         let flag = true;
@@ -607,7 +609,7 @@ function pfSameDimension(index1,index2,dim){
           if(row >= keyval || (row <= 1 && i!==0)){
             flag = !flag;
           }
-          
+              
           coded.push({code:row,value:ptval[i]});
           if(flag)
           {
@@ -632,6 +634,7 @@ function pfSameDimension(index1,index2,dim){
 
       }else{
         ctval = PT.value;
+        ctval = ctval.replace(/ /g,"");
         length = ctval.length;
         let flag = false,row = 0,rail={};
         
