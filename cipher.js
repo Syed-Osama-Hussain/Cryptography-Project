@@ -357,6 +357,8 @@ function playFair(btnType){
     ctval = checkCT(ctval.toUpperCase());
     //console.log(ctval);
     length = ctval.length;
+    ctval = ctval.replace(/J/g, "I")
+    console.log(ctval,length);
     if(!ctval){
       alert(`Invalid CT value ${CT.value}`)
       return;
@@ -373,7 +375,7 @@ function playFair(btnType){
       return;
     }
   }
-  console.log(keyMatrix)
+  console.log(keyMatrix,ctval,key.value)
   
   if(!keyMatrix){
     alert(`Invalid key ${key.value}`);
@@ -382,7 +384,7 @@ function playFair(btnType){
 
 
   for(let i=0;i<length;i+=2){
-    //console.log(ptval)
+    // console.log(i)
     if(btnType == "Encrypt"){
 
       if(ctval[i] === " ")
@@ -391,12 +393,13 @@ function playFair(btnType){
         i++;
         //continue;
       }
+      // console.log(ctval[i])
       let index1 = {x: keyMatrix[ctval[i]][0],y:keyMatrix[ctval[i]][1]};
-      console.log(keyMatrix[ctval[i+1]],ctval[i+1]);
+      // console.log(keyMatrix[ctval[i+1]],ctval[i+1]);
 
       let index2 = {x: keyMatrix[ctval[i+1]][0],y:keyMatrix[ctval[i+1]][1]};
 
-      //console.log(index1,index2);
+      // console.log(index1,index2);
       if(index1.x === index2.x){
         let targetIndex = pfSameDimension(index1.y,index2.y,"y")
 
@@ -417,6 +420,7 @@ function playFair(btnType){
           // let index1 = {x: ,y:};
           // let index2 = {x: keyMatrix[ctval[i+1]][0],y:};
           //   }
+          console.log(Object.keys(keyMatrix).find(k => keyMatrix[k] === `${keyMatrix[ctval[i+1]][0]}${keyMatrix[ctval[i]][1]}`),Object.keys(keyMatrix).find(k => keyMatrix[k] === `${keyMatrix[ctval[i]][0]}${keyMatrix[ctval[i+1]][1]}`),i)
 
           ptval += Object.keys(keyMatrix).find(k => keyMatrix[k] === `${keyMatrix[ctval[i+1]][0]}${keyMatrix[ctval[i]][1]}`);
   
@@ -468,6 +472,7 @@ function playFair(btnType){
   }
   
   if (btnType === "Encrypt") {
+    console.log(ptval)
     PT.value = caseCheck(ptval,CT.value);
   } else {
     CT.value = caseCheck(ctval,PT.value);
