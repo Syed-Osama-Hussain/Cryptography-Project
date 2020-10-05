@@ -669,7 +669,7 @@ function pfSameDimension(index1,index2,dim){
             row--;
           }
         }
-        PT.value = result;
+        CT.value = result;
       }
 
     }
