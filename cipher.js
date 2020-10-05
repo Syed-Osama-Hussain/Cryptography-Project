@@ -165,9 +165,6 @@ function shift(btnType) {
         }else{
           code = code % 26;
         }
-        // while (code < 0) {
-        //   code += 26;
-        // }
         ctval += Object.keys(alpha).find(k => alpha[k] === code);
 
       } else {
@@ -346,7 +343,6 @@ function constructRandKey(){
 
 function playFair(btnType){
   let keyMatrix = {};
-
   let ptval = "";
   let ctval = "";
   let length;
@@ -355,10 +351,8 @@ function playFair(btnType){
     ctval = CT.value;
 
     ctval = checkCT(ctval.toUpperCase());
-    //console.log(ctval);
     length = ctval.length;
     ctval = ctval.replace(/J/g, "I")
-    console.log(ctval,length);
     if(!ctval){
       alert(`Invalid CT value ${CT.value}`)
       return;
@@ -367,7 +361,7 @@ function playFair(btnType){
   } else {
 
     ptval = PT.value.toUpperCase();
-    //ptval = checkCT(ptval.toUpperCase());
+    ptval = ptval.replace(/J/g, "I")
     keyMatrix = constructMatrix(key.value.toUpperCase());
     length = ptval.length;
     if(!ptval){
@@ -375,7 +369,6 @@ function playFair(btnType){
       return;
     }
   }
-  console.log(keyMatrix,ctval,key.value)
   
   if(!keyMatrix){
     alert(`Invalid key ${key.value}`);
@@ -384,22 +377,17 @@ function playFair(btnType){
 
 
   for(let i=0;i<length;i+=2){
-    // console.log(i)
     if(btnType == "Encrypt"){
 
       if(ctval[i] === " ")
       {
         ptval += ctval[i];
         i++;
-        //continue;
       }
-      // console.log(ctval[i])
       let index1 = {x: keyMatrix[ctval[i]][0],y:keyMatrix[ctval[i]][1]};
-      // console.log(keyMatrix[ctval[i+1]],ctval[i+1]);
 
       let index2 = {x: keyMatrix[ctval[i+1]][0],y:keyMatrix[ctval[i+1]][1]};
 
-      // console.log(index1,index2);
       if(index1.x === index2.x){
         let targetIndex = pfSameDimension(index1.y,index2.y,"y")
 
@@ -411,16 +399,11 @@ function playFair(btnType){
 
         if(index1.y === index2.y){
           let targetIndex = pfSameDimension(index1.x,index2.x,"x")
-          //console.log(targetIndex);
           ptval += Object.keys(keyMatrix).find(k => keyMatrix[k] === `${targetIndex.t1}${index1.y}`);
   
           ptval += Object.keys(keyMatrix).find(k => keyMatrix[k] === `${targetIndex.t2}${index1.y}`);
           }
         else{
-          // let index1 = {x: ,y:};
-          // let index2 = {x: keyMatrix[ctval[i+1]][0],y:};
-          //   }
-          console.log(Object.keys(keyMatrix).find(k => keyMatrix[k] === `${keyMatrix[ctval[i+1]][0]}${keyMatrix[ctval[i]][1]}`),Object.keys(keyMatrix).find(k => keyMatrix[k] === `${keyMatrix[ctval[i]][0]}${keyMatrix[ctval[i+1]][1]}`),i)
 
           ptval += Object.keys(keyMatrix).find(k => keyMatrix[k] === `${keyMatrix[ctval[i+1]][0]}${keyMatrix[ctval[i]][1]}`);
   
@@ -434,13 +417,10 @@ function playFair(btnType){
     {
       ctval += ptval[i];
       i++;
-      //continue;
     }
     let index1 = {x: keyMatrix[ptval[i]][0],y:keyMatrix[ptval[i]][1]};
-    console.log(keyMatrix[ptval[i+1]],ptval[i+1]);
     let index2 = {x: keyMatrix[ptval[i+1]][0],y:keyMatrix[ptval[i+1]][1]};
 
-    //console.log(index1,index2);
     if(index1.x === index2.x){
       let targetIndex = pfSameDimensionDec(index1.y,index2.y,"y")
 
@@ -452,15 +432,11 @@ function playFair(btnType){
 
       if(index1.y === index2.y){
         let targetIndex = pfSameDimensionDec(index1.x,index2.x,"x")
-        //console.log(targetIndex);
         ctval += Object.keys(keyMatrix).find(k => keyMatrix[k] === `${targetIndex.t1}${index1.y}`);
 
         ctval += Object.keys(keyMatrix).find(k => keyMatrix[k] === `${targetIndex.t2}${index1.y}`);
         }
       else{
-        // let index1 = {x: ,y:};
-        // let index2 = {x: keyMatrix[ctval[i+1]][0],y:};
-        //   }
 
         ctval += Object.keys(keyMatrix).find(k => keyMatrix[k] === `${keyMatrix[ptval[i+1]][0]}${keyMatrix[ptval[i]][1]}`);
 
@@ -472,10 +448,9 @@ function playFair(btnType){
   }
   
   if (btnType === "Encrypt") {
-    console.log(ptval)
-    PT.value = caseCheck(ptval,CT.value);
+    PT.value = ptval;
   } else {
-    CT.value = caseCheck(ctval,PT.value);
+    CT.value = ctval;
   }
 }
 
@@ -483,7 +458,7 @@ function playFair(btnType){
 function constructMatrix(keyStr){
   let keyMatrix = {};
   let keyval = keyStr.replace(/J/g,"I");
-  //console.log(keyval)
+  keyval = keyval.replace(/ /g,"");
   let x =0,y=1;
   for(let i=0; i<keyval.length;i++){
     
@@ -493,7 +468,6 @@ function constructMatrix(keyStr){
         break;
       }
       
-      //console.log(keyval[i]);
       if(!Object.keys(keyMatrix).find(keymat => keymat === keyval[i]))
       {
         x += 1
